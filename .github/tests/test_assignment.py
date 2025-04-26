@@ -88,10 +88,7 @@ class TestPart1:
             pytest.skip("load_data function not found in part1_exploration.ipynb")
         
         # Test with empty data directory
-        # Something is wrong here, the test_dirs['raw_dir'] is empty
         result = load_data(data_dir=str(test_dirs['raw_dir']))
-        # result = load_data(data_dir="/workspaces/4-it-s-about-time-ZhangZwaa/data/S1")
-
         
         # Check return type and required columns
         assert isinstance(result, pd.DataFrame), "load_data should return a pandas DataFrame"
@@ -171,6 +168,7 @@ class TestPart1:
         
         # Check output file
         plot_file = test_dirs['plots_dir'] / 'S1_Midterm 1_signals.png'
+        print(plot_file)
         assert plot_file.exists(), "Plot should be saved to file"
 
 # # Part 2: Time Series Modeling Tests
