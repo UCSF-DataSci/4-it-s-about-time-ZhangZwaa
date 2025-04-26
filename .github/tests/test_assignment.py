@@ -227,113 +227,113 @@ class TestPart2:
             except Exception as e:
                 pytest.fail(f"Could not read plot file {plot_file}: {str(e)}")
 
-# # Part 3: Advanced Analysis Tests
-# class TestPart3:
-#     """Test advanced analysis functions from part3_advanced.ipynb"""
+# Part 3: Advanced Analysis Tests
+class TestPart3:
+    """Test advanced analysis functions from part3_advanced.ipynb"""
     
-#     def test_time_domain_features(self, sample_data):
-#         """Test time-domain feature extraction"""
-#         try:
-#             functions = load_notebook_functions('part3_advanced.ipynb')
-#             extract_features = functions.get('extract_time_domain_features')
-#         except Exception as e:
-#             pytest.skip(f"Could not load extract_time_domain_features function: {str(e)}")
+    def test_time_domain_features(self, sample_data):
+        """Test time-domain feature extraction"""
+        try:
+            functions = load_notebook_functions('part3_advanced.ipynb')
+            extract_features = functions.get('extract_time_domain_features')
+        except Exception as e:
+            pytest.skip(f"Could not load extract_time_domain_features function: {str(e)}")
             
-#         if extract_features is None:
-#             pytest.skip("extract_time_domain_features function not found in part3_advanced.ipynb")
+        if extract_features is None:
+            pytest.skip("extract_time_domain_features function not found in part3_advanced.ipynb")
             
-#         # Test with different window sizes
-#         for window_size in [30, 60, 120]:
-#             features = extract_features(sample_data, window_size=window_size)
+        # Test with different window sizes
+        for window_size in [30, 60, 120]:
+            features = extract_features(sample_data, window_size=window_size)
             
-#             # Check required features
-#             required_features = [
-#                 'mean', 'std', 'min', 'max',
-#                 'mean_hr', 'std_hr',
-#                 'rmssd', 'sdnn', 'pnn50'
-#             ]
-#             for feature in required_features:
-#                 assert feature in features.columns, f"Missing required feature: {feature}"
+            # Check required features
+            required_features = [
+                'mean', 'std', 'min', 'max',
+                'mean_hr', 'std_hr',
+                'rmssd', 'sdnn', 'pnn50'
+            ]
+            for feature in required_features:
+                assert feature in features.columns, f"Missing required feature: {feature}"
                 
-#             # Check feature values
-#             assert not features.isnull().any().any(), "Features contain NaN values"
-#             assert (features['rmssd'] >= 0).all(), "RMSSD should be non-negative"
-#             assert (features['sdnn'] >= 0).all(), "SDNN should be non-negative"
-#             assert (features['pnn50'] >= 0).all() and (features['pnn50'] <= 100).all(), "pNN50 should be between 0 and 100"
+            # Check feature values
+            assert not features.isnull().any().any(), "Features contain NaN values"
+            assert (features['rmssd'] >= 0).all(), "RMSSD should be non-negative"
+            assert (features['sdnn'] >= 0).all(), "SDNN should be non-negative"
+            assert (features['pnn50'] >= 0).all() and (features['pnn50'] <= 100).all(), "pNN50 should be between 0 and 100"
             
-#             # Check window size effect
-#             if window_size > 30:
-#                 assert len(features) < len(sample_data), f"Features should be aggregated for window_size={window_size}"
+            # Check window size effect
+            if window_size > 30:
+                assert len(features) < len(sample_data), f"Features should be aggregated for window_size={window_size}"
         
-#     def test_frequency_analysis(self, sample_data):
-#         """Test frequency component analysis"""
-#         try:
-#             functions = load_notebook_functions('part3_advanced.ipynb')
-#             analyze_freq = functions.get('analyze_frequency_components')
-#         except Exception as e:
-#             pytest.skip(f"Could not load analyze_frequency_components function: {str(e)}")
+    def test_frequency_analysis(self, sample_data):
+        """Test frequency component analysis"""
+        try:
+            functions = load_notebook_functions('part3_advanced.ipynb')
+            analyze_freq = functions.get('analyze_frequency_components')
+        except Exception as e:
+            pytest.skip(f"Could not load analyze_frequency_components function: {str(e)}")
             
-#         if analyze_freq is None:
-#             pytest.skip("analyze_frequency_components function not found in part3_advanced.ipynb")
+        if analyze_freq is None:
+            pytest.skip("analyze_frequency_components function not found in part3_advanced.ipynb")
             
-#         # Test with different window sizes
-#         sampling_rate = 4.0  # Hz
-#         for window_size in [30, 60, 120]:
-#             results = analyze_freq(sample_data, sampling_rate, window_size=window_size)
+        # Test with different window sizes
+        sampling_rate = 4.0  # Hz
+        for window_size in [30, 60, 120]:
+            results = analyze_freq(sample_data, sampling_rate, window_size=window_size)
             
-#             # Check required components
-#             assert 'frequencies' in results, "Missing frequencies in results"
-#             assert 'power' in results, "Missing power spectrum in results"
-#             assert 'bands' in results, "Missing frequency bands in results"
+            # Check required components
+            assert 'frequencies' in results, "Missing frequencies in results"
+            assert 'power' in results, "Missing power spectrum in results"
+            assert 'bands' in results, "Missing frequency bands in results"
             
-#             # Check frequency bands
-#             required_bands = ['VLF', 'LF', 'HF']
-#             for band in required_bands:
-#                 assert band in results['bands'], f"Missing frequency band: {band}"
+            # Check frequency bands
+            required_bands = ['VLF', 'LF', 'HF']
+            for band in required_bands:
+                assert band in results['bands'], f"Missing frequency band: {band}"
                 
-#             # Check values
-#             assert len(results['frequencies']) == len(results['power']), "Frequency and power arrays should have same length"
-#             assert (results['power'] >= 0).all(), "Power values should be non-negative"
-#             assert 'LF/HF' in results['bands'], "Missing LF/HF ratio"
+            # Check values
+            assert len(results['frequencies']) == len(results['power']), "Frequency and power arrays should have same length"
+            assert (results['power'] >= 0).all(), "Power values should be non-negative"
+            assert 'LF/HF' in results['bands'], "Missing LF/HF ratio"
             
-#             # Check window size effect
-#             if window_size > 30:
-#                 assert len(results['frequencies']) < len(sample_data), f"Frequencies should be aggregated for window_size={window_size}"
+            # Check window size effect
+            if window_size > 30:
+                assert len(results['frequencies']) < len(sample_data), f"Frequencies should be aggregated for window_size={window_size}"
         
-#     def test_time_frequency_analysis(self, sample_data):
-#         """Test time-frequency feature analysis"""
-#         try:
-#             functions = load_notebook_functions('part3_advanced.ipynb')
-#             analyze_tf = functions.get('analyze_time_frequency_features')
-#         except Exception as e:
-#             pytest.skip(f"Could not load analyze_time_frequency_features function: {str(e)}")
+    def test_time_frequency_analysis(self, sample_data):
+        """Test time-frequency feature analysis"""
+        try:
+            functions = load_notebook_functions('part3_advanced.ipynb')
+            analyze_tf = functions.get('analyze_time_frequency_features')
+        except Exception as e:
+            pytest.skip(f"Could not load analyze_time_frequency_features function: {str(e)}")
             
-#         if analyze_tf is None:
-#             pytest.skip("analyze_time_frequency_features function not found in part3_advanced.ipynb")
+        if analyze_tf is None:
+            pytest.skip("analyze_time_frequency_features function not found in part3_advanced.ipynb")
             
-#         # Test with different window sizes
-#         sampling_rate = 4.0  # Hz
-#         for window_size in [30, 60, 120]:
-#             results = analyze_tf(sample_data, sampling_rate, window_size=window_size)
+        # Test with different window sizes
+        sampling_rate = 4.0  # Hz
+        for window_size in [30, 60, 120]:
+            results = analyze_tf(sample_data, sampling_rate, window_size=window_size)
             
-#             # Check required components
-#             assert 'scales' in results, "Missing wavelet scales in results"
-#             assert 'coefficients' in results, "Missing wavelet coefficients in results"
-#             assert 'time_frequency_energy' in results, "Missing time-frequency energy in results"
+            # Check required components
+            assert 'scales' in results, "Missing wavelet scales in results"
+            assert 'coefficients' in results, "Missing wavelet coefficients in results"
+            assert 'time_frequency_energy' in results, "Missing time-frequency energy in results"
             
-#             # Check array shapes
-#             assert len(results['scales']) > 0, "Should have at least one wavelet scale"
-#             assert results['coefficients'].ndim == 2, "Wavelet coefficients should be 2D array"
-#             assert results['time_frequency_energy'].ndim == 2, "Time-frequency energy should be 2D array"
+            # Check array shapes
+            assert len(results['scales']) > 0, "Should have at least one wavelet scale"
+            assert results['coefficients'].ndim == 2, "Wavelet coefficients should be 2D array"
+            assert results['time_frequency_energy'].ndim == 2, "Time-frequency energy should be 2D array"
             
-#             # Check values
-#             assert not np.isnan(results['coefficients']).any(), "Wavelet coefficients contain NaN values"
-#             assert not np.isnan(results['time_frequency_energy']).any(), "Time-frequency energy contains NaN values"
-#             assert (results['time_frequency_energy'] >= 0).all(), "Energy values should be non-negative"
+            # Check values
+            assert not np.isnan(results['coefficients']).any(), "Wavelet coefficients contain NaN values"
+            assert not np.isnan(results['time_frequency_energy']).any(), "Time-frequency energy contains NaN values"
+            assert (results['time_frequency_energy'] >= 0).all(), "Energy values should be non-negative"
             
-#             # Check window size effect
-#             if window_size > 30:
-#                 assert results['coefficients'].shape[1] < len(sample_data), f"Coefficients should be aggregated for window_size={window_size}"
+            # Check window size effect
+            if window_size > 30:
+                assert results['coefficients'].shape[1] < len(sample_data), f"Coefficients should be aggregated for window_size={window_size}"
 
 if __name__ == "__main__":
     pytest.main(["-v"]) 
