@@ -89,8 +89,8 @@ class TestPart1:
         
         # Test with empty data directory
         # Something is wrong here, the test_dirs['raw_dir'] is empty
-        # result = load_data(data_dir=str(test_dirs['raw_dir']))
-        result = load_data(data_dir="/workspaces/4-it-s-about-time-ZhangZwaa/data/S1")
+        result = load_data(data_dir=str(test_dirs['raw_dir']))
+        # result = load_data(data_dir="/workspaces/4-it-s-about-time-ZhangZwaa/data/S1")
 
         
         # Check return type and required columns
