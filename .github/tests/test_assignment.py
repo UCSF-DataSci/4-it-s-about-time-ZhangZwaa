@@ -171,61 +171,61 @@ class TestPart1:
         print(plot_file)
         assert plot_file.exists(), "Plot should be saved to file"
 
-# # Part 2: Time Series Modeling Tests
-# class TestPart2:
-#     def test_feature_extraction(self, sample_data):
-#         """Test time series feature extraction."""
-#         try:
-#             functions = load_notebook_functions('part2_modeling.ipynb')
-#             extract_features = functions.get('extract_time_series_features')
-#         except Exception as e:
-#             pytest.skip(f"Could not load extract_time_series_features function: {str(e)}")
+# Part 2: Time Series Modeling Tests
+class TestPart2:
+    def test_feature_extraction(self, sample_data):
+        """Test time series feature extraction."""
+        try:
+            functions = load_notebook_functions('part2_modeling.ipynb')
+            extract_features = functions.get('extract_time_series_features')
+        except Exception as e:
+            pytest.skip(f"Could not load extract_time_series_features function: {str(e)}")
             
-#         if extract_features is None:
-#             pytest.skip("extract_time_series_features function not found in part2_modeling.ipynb")
+        if extract_features is None:
+            pytest.skip("extract_time_series_features function not found in part2_modeling.ipynb")
         
-#         features = extract_features(sample_data, window_size=60)
+        features = extract_features(sample_data, window_size=60)
         
-#         # Check return type
-#         assert isinstance(features, pd.DataFrame), "Feature extraction should return a pandas DataFrame"
+        # Check return type
+        assert isinstance(features, pd.DataFrame), "Feature extraction should return a pandas DataFrame"
         
-#         # Check required features (allow different but valid feature names)
-#         required_features = ['mean', 'std', 'min', 'max', 'autocorr']
-#         feature_columns = [col.lower() for col in features.columns]
-#         missing_features = [feat for feat in required_features 
-#                           if not any(feat in col for col in feature_columns)]
-#         assert not missing_features, f"Missing required features: {missing_features}"
+        # Check required features (allow different but valid feature names)
+        required_features = ['mean', 'std', 'min', 'max', 'autocorr']
+        feature_columns = [col.lower() for col in features.columns]
+        missing_features = [feat for feat in required_features 
+                          if not any(feat in col for col in feature_columns)]
+        assert not missing_features, f"Missing required features: {missing_features}"
 
-#     def test_arima_modeling(self, sample_data, test_dirs):
-#         """Test ARIMA model building and plot generation."""
-#         try:
-#             functions = load_notebook_functions('part2_modeling.ipynb')
-#             build_arima = functions.get('build_arima_model')
-#         except Exception as e:
-#             pytest.skip(f"Could not load build_arima_model function: {str(e)}")
+    def test_arima_modeling(self, sample_data, test_dirs):
+        """Test ARIMA model building and plot generation."""
+        try:
+            functions = load_notebook_functions('part2_modeling.ipynb')
+            build_arima = functions.get('build_arima_model')
+        except Exception as e:
+            pytest.skip(f"Could not load build_arima_model function: {str(e)}")
             
-#         if build_arima is None:
-#             pytest.skip("build_arima_model function not found in part2_modeling.ipynb")
+        if build_arima is None:
+            pytest.skip("build_arima_model function not found in part2_modeling.ipynb")
         
-#         # Test with heart rate data
-#         series = sample_data['heart_rate']
-#         model = build_arima(series, order=(1,1,1), output_dir=str(test_dirs['plots_dir']))
+        # Test with heart rate data
+        series = sample_data['heart_rate']
+        model = build_arima(series, order=(1,1,1), output_dir=str(test_dirs['plots_dir']))
         
-#         # Check model properties (allow different but valid model types)
-#         assert hasattr(model, 'predict'), "Model should have predict method"
-#         assert hasattr(model, 'fit'), "Model should have fit method"
+        # Check model properties (allow different but valid model types)
+        assert hasattr(model, 'predict'), "Model should have predict method"
+        assert hasattr(model, 'fit'), "Model should have fit method"
         
-#         # Check output plots (allow different but valid plot types)
-#         plot_files = list(test_dirs['plots_dir'].glob('*arima*.png'))
-#         assert len(plot_files) >= 2, "Expected at least 2 ARIMA diagnostic plots"
+        # Check output plots (allow different but valid plot types)
+        plot_files = list(test_dirs['plots_dir'].glob('*arima*.png'))
+        assert len(plot_files) >= 2, "Expected at least 2 ARIMA diagnostic plots"
         
-#         # Check plot content
-#         for plot_file in plot_files:
-#             try:
-#                 img = plt.imread(plot_file)
-#                 assert img.shape[2] in [3, 4], "Plot should be RGB or RGBA"
-#             except Exception as e:
-#                 pytest.fail(f"Could not read plot file {plot_file}: {str(e)}")
+        # Check plot content
+        for plot_file in plot_files:
+            try:
+                img = plt.imread(plot_file)
+                assert img.shape[2] in [3, 4], "Plot should be RGB or RGBA"
+            except Exception as e:
+                pytest.fail(f"Could not read plot file {plot_file}: {str(e)}")
 
 # # Part 3: Advanced Analysis Tests
 # class TestPart3:
